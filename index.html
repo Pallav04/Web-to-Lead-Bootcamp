@@ -6,18 +6,29 @@
         <title> Web To Lead Form </title>
         <link rel="stylesheet" href="style.css">
         <script src="script.js"></script>
+        <script src="https://www.google.com/recaptcha/api.js"></script>
+        <script>
+            function timestamp() { 
+                var response = document.getElementById("g-recaptcha-response"); 
+                if (response == null || response.value.trim() == "") {
+                    var elems = JSON.parse(document.getElementsByName("captcha_settings")[0].value);
+                    elems["ts"] = JSON.stringify(new Date().getTime());
+                    document.getElementsByName("captcha_settings")[0].value = JSON.stringify(elems); } } setInterval(timestamp, 500); 
+           </script>
     </head>
     <body>
         <h1> Create Lead</h1>
         <form action="https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&orgId=00Df40000002MDO" method="POST" onsubmit="beforesubmit()">
+            <input type=hidden name='captcha_settings' value='{"keyname":"WebToLead","fallback":"true","orgId":"00Df40000002MDO","ts":""}'>
             <input type=hidden name="oid" value="00Df40000002MDO" />
-            <input type=hidden name="retURL" value="" />
+            <input type=hidden name="retURL" value="https://pallav04.github.io/Web-to-Lead-Bootcamp/Thankyou.html" />
             <input type=hidden name="Lead_Date__c" class="outputdate" />
             <label for="first_name">First Name</label><input  id="first_name" maxlength="40" name="first_name" size="20" type="text" required="true"/><br />
             <label for="last_name">Last Name</label><input  id="last_name" maxlength="80" name="last_name" size="20" type="text" required="true"/><br />
             <label for="email">Email</label><input  id="email" maxlength="80" name="email" size="20" type="text" required="true" /><br />
             <!--Lead Date:<span class="dateInput dateOnlyInput"><input  id="00N5G00000WnDsZ" name="00N5G00000WnDsZ" size="12" type="text" /></span><br-->
             <label for="date_picker">Lead Date</label><input id="date_picker" type="date" required="true" class="inputdate" />
+            <div class="g-recaptcha" data-sitekey="6LfGPUcqAAAAAEGZhi_3FLQ2OjGJ_81chCYXZDk-"></div><br />
             <input type="submit" name="submit" class="submit" />
         </form> 
     </body>
